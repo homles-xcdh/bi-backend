@@ -5,26 +5,54 @@
 <mapper namespace="com.demo.springbootinit.mapper.ChartMapper">
 
     <resultMap id="BaseResultMap" type="com.demo.springbootinit.model.entity.Chart">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="goal" column="goal" jdbcType="VARCHAR"/>
-            <result property="chartData" column="chartData" jdbcType="VARCHAR"/>
-            <result property="chartType" column="chartType" jdbcType="VARCHAR"/>
-            <result property="genChart" column="genChart" jdbcType="VARCHAR"/>
-            <result property="genResult" column="genResult" jdbcType="VARCHAR"/>
-            <result property="userId" column="userId" jdbcType="BIGINT"/>
-            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
-            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="goal" column="goal" jdbcType="VARCHAR"/>
+        <result property="chartName" column="chartName" jdbcType="VARCHAR"/>
+        <result property="chartData" column="chartData" jdbcType="VARCHAR"/>
+        <result property="chartType" column="chartType" jdbcType="VARCHAR"/>
+        <result property="genChart" column="genChart" jdbcType="VARCHAR"/>
+        <result property="genResult" column="genResult" jdbcType="VARCHAR"/>
+        <result property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="genStatus" column="genStatus" jdbcType="TINYINT"/>
+        <result property="execMessage" column="execMessage" jdbcType="VARCHAR"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,`name`,goal,chartData,
-        chartType,genChart,genResult,userId,
-        createTime,updateTime,isDelete
+        id,goal,chartName,chartData,
+        chartType,genChart,genResult,
+        userId,createTime,updateTime,
+        isDelete
     </sql>
 
-    <select id="queryChartData" parameterType="string" resultType="map">
-        ${querySql}
-    </select>
+    <update id="creatChartTable">
+        CREATE TABLE IF NOT EXISTS chart_#{chartId} (
+        id bigint auto_increment comment 'id' primary key,
+        <foreach collection="colList" item="column" separator=",">
+            <if test="column.columnName != null and column.columnName != '' and column.columnType != null and column.columnType != ''">
+                `${column.columnName}` ${column.columnType} null
+            </if>
+        </foreach>
+        ) comment '${chartId}图表原始数据' collate = utf8mb4_unicode_ci;
+    </update>
+
+    <insert id="insertBatchChart" parameterType="list">
+        insert into chart_#{chartId}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="columns" item="column" separator=",">
+                ${column}
+            </foreach>
+        </trim>
+        VALUES
+        <foreach collection="data" item="item" separator=",">
+            (
+            <foreach collection="item.entrySet()" item="entry" separator=",">
+                #{entry.value}
+            </foreach>
+            )
+        </foreach>
+
+    </insert>
 </mapper>
