@@ -1,16 +1,15 @@
 package com.demo.springbootinit.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
- * 图表信息表
- * @TableName chart
+ * 图标信息表
  */
-@TableName(value ="chart")
+@TableName(value = "chart")
 @Data
 public class Chart implements Serializable {
     /**
@@ -20,22 +19,22 @@ public class Chart implements Serializable {
     private Long id;
 
     /**
-     * 名称
-     */
-    private String name;
-
-    /**
      * 分析目标
      */
     private String goal;
 
     /**
-     * 图表数据
+     * 图标名称
+     */
+    private String chartName;
+
+    /**
+     * 图标数据
      */
     private String chartData;
 
     /**
-     * 图表类型
+     * 图标类型
      */
     private String chartType;
 
@@ -50,9 +49,9 @@ public class Chart implements Serializable {
     private String genResult;
 
     /**
-     * 任务状态
+     * 生成状态[0:等待1:运行中2:失败3:成功]
      */
-    private String status;
+    private Integer genStatus;
 
     /**
      * 执行信息
@@ -60,7 +59,7 @@ public class Chart implements Serializable {
     private String execMessage;
 
     /**
-     * 用户 id
+     * 创建用户 id
      */
     private Long userId;
 

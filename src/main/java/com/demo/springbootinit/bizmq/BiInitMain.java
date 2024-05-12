@@ -1,30 +1,56 @@
 package com.demo.springbootinit.bizmq;
 
+import com.demo.springbootinit.constant.BiMqConstant;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 用于创建测试程序用到的交换机和队列（只用在程序启动前执行一次）
+ * 创建bi程序用到的交换机和队列
  */
 public class BiInitMain {
 
-    public static void main(String[] args) {
-        try {
-            ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost("localhost");
-            Connection connection = factory.newConnection();
-            Channel channel = connection.createChannel();
-            String EXCHANGE_NAME =  BiMqConstant.BI_EXCHANGE_NAME;
-            channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+    public static void main(String[] argv) throws Exception {
+        //创建链接工厂
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        //建立链接、创建频道
+        try (Connection connection = factory.newConnection();
+             Channel channel = connection.createChannel()) {
+            //创建Bi死信交换机
+            channel.exchangeDeclare(BiMqConstant.BI_CHART_DLX_EXCHANGE_NAME, "direct");
+            //创建Bi死信队列
+            channel.queueDeclare(BiMqConstant.BI_CHART_DLX_QUEUE_NAME, true, false, false, null);
+            channel.queueBind(BiMqConstant.BI_CHART_DLX_QUEUE_NAME, BiMqConstant.BI_CHART_DLX_EXCHANGE_NAME, BiMqConstant.BI_CHART_DLX_ROUTING_KEY);
 
-            // 创建队列，随机分配一个队列名称
-            String queueName = BiMqConstant.BI_QUEUE_NAME;
-            channel.queueDeclare(queueName, true, false, false, null);
-            channel.queueBind(queueName, EXCHANGE_NAME,  BiMqConstant.BI_ROUTING_KEY);
-        } catch (Exception e) {
+            //创建 Bi 交换机
+            channel.exchangeDeclare(BiMqConstant.BI_CHART_EXCHANGE_NAME, "direct");
+            //指定死信队列参数
+            Map<String, Object> args = new HashMap<>(2);
+            //要绑定那个死信交换机
+            args.put("x-dead-letter-exchange", BiMqConstant.BI_CHART_DLX_EXCHANGE_NAME);
+            //指定死信要发送到那个死信队列
+            args.put("x-dead-letter-routing-key", BiMqConstant.BI_CHART_DLX_ROUTING_KEY);
+            //创建 Bi 队列 并 绑定 死信交换机
+            channel.queueDeclare(BiMqConstant.BI_CHART_QUEUE_NAME, true, false, false, args);
+            channel.queueBind(
+                    BiMqConstant.BI_CHART_QUEUE_NAME,
+                    BiMqConstant.BI_CHART_EXCHANGE_NAME,
+                    BiMqConstant.BI_CHART_ROUTING_KEY
+            );
 
+            //创建 Bi 重试交换机
+            channel.exchangeDeclare(BiMqConstant.BI_CHART_RELOAD_EXCHANGE_NAME, "direct");
+            //创建 Bi 重试队列 并 绑定 死信交换机
+            channel.queueDeclare(BiMqConstant.BI_CHART_RELOAD_QUEUE_NAME, true, false, false, args);
+            channel.queueBind(
+                    BiMqConstant.BI_CHART_RELOAD_QUEUE_NAME,
+                    BiMqConstant.BI_CHART_RELOAD_EXCHANGE_NAME,
+                    BiMqConstant.BI_CHART_RELOAD_ROUTING_KEY
+            );
         }
-
     }
 }

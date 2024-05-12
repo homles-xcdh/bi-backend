@@ -1,11 +1,11 @@
 package com.demo.springbootinit.model.dto.post;
 
 import com.demo.springbootinit.common.PageRequest;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 查询请求

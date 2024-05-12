@@ -1,8 +1,11 @@
 package com.demo.springbootinit.model.vo;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 已登录用户视图（脱敏）
@@ -38,11 +41,13 @@ public class LoginUserVO implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;

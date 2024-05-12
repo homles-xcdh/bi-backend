@@ -2,6 +2,7 @@ package com.demo.springbootinit.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.demo.springbootinit.model.entity.Post;
+
 import java.util.Date;
 import java.util.List;
 

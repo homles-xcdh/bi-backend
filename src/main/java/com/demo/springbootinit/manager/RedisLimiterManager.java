@@ -6,14 +6,18 @@ import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateIntervalUnit;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 
 /**
- * 专门提供 RedisLimiter 限流基础服务的（提供了通用的能力）
+ * redis限流器
+ *
+ * @author lwx
+ * @since 2023/7/5 22:33
  */
-@Service
+@Component
 public class RedisLimiterManager {
 
     @Resource
@@ -22,15 +26,17 @@ public class RedisLimiterManager {
     /**
      * 限流操作
      *
-     * @param key 区分不同的限流器，比如不同的用户 id 应该分别统计
+     * @param key redisKey
      */
     public void doRateLimit(String key) {
-        // 创建一个名称为user_limiter的限流器，每秒最多访问 2 次
-        RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
-        rateLimiter.trySetRate(RateType.OVERALL, 2, 1, RateIntervalUnit.SECONDS);
-        // 每当一个操作来了后，请求一个令牌
-        boolean canOp = rateLimiter.tryAcquire(1);
-        if (!canOp) {
+        // 创建一个限流器
+        RRateLimiter limiter = redissonClient.getRateLimiter(key);
+        //过期时间
+        limiter.expire(Duration.ofMinutes(1));
+        // 初始化限流器，设置每秒最大许可数为 1
+        limiter.trySetRate(RateType.OVERALL, 1, 1, RateIntervalUnit.SECONDS);
+        //尝试获取许可，获取失败，则抛出异常
+        if (!limiter.tryAcquire()) {
             throw new BusinessException(ErrorCode.TOO_MANY_REQUEST);
         }
     }

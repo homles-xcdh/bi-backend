@@ -5,15 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 文件上传请求
+ * 自动分析图表请求
  */
 @Data
 public class GenChartByAiRequest implements Serializable {
-
-    /**
-     * 名称
-     */
-    private String name;
 
     /**
      * 分析目标
@@ -21,7 +16,12 @@ public class GenChartByAiRequest implements Serializable {
     private String goal;
 
     /**
-     * 图表类型
+     * 图标名称
+     */
+    private String chartName;
+
+    /**
+     * 图标类型
      */
     private String chartType;
 

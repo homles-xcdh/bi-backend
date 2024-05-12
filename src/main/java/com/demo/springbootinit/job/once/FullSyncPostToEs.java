@@ -1,16 +1,16 @@
 package com.demo.springbootinit.job.once;
 
+import com.demo.springbootinit.esdao.PostEsDao;
 import com.demo.springbootinit.model.dto.post.PostEsDTO;
 import com.demo.springbootinit.model.entity.Post;
 import com.demo.springbootinit.service.PostService;
-import com.demo.springbootinit.esdao.PostEsDao;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.CommandLineRunner;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 全量同步帖子到 es

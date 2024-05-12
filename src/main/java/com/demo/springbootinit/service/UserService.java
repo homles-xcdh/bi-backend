@@ -7,8 +7,8 @@ import com.demo.springbootinit.model.entity.User;
 import com.demo.springbootinit.model.vo.LoginUserVO;
 import com.demo.springbootinit.model.vo.UserVO;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户服务

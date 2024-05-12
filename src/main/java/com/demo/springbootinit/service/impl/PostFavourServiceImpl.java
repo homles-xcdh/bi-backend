@@ -6,18 +6,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.springbootinit.common.ErrorCode;
+import com.demo.springbootinit.exception.BusinessException;
 import com.demo.springbootinit.mapper.PostFavourMapper;
 import com.demo.springbootinit.model.entity.Post;
 import com.demo.springbootinit.model.entity.PostFavour;
 import com.demo.springbootinit.model.entity.User;
-import com.demo.springbootinit.service.PostService;
-import com.demo.springbootinit.exception.BusinessException;
 import com.demo.springbootinit.service.PostFavourService;
-
-import javax.annotation.Resource;
+import com.demo.springbootinit.service.PostService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子收藏服务实现

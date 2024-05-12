@@ -10,4 +10,9 @@ public interface FileConstant {
      * todo 需替换配置
      */
     String COS_HOST = "https://yupi.icu";
+
+    /**
+     * 限制 文件大小 1M
+     */
+    Long MAX_FILE_SIZE = 1024 * 1024L;
 }

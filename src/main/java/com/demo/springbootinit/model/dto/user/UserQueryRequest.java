@@ -1,10 +1,10 @@
 package com.demo.springbootinit.model.dto.user;
 
 import com.demo.springbootinit.common.PageRequest;
-
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 用户查询请求

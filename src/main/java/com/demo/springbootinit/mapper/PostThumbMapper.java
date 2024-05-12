@@ -1,7 +1,7 @@
 package com.demo.springbootinit.mapper;
 
-import com.demo.springbootinit.model.entity.PostThumb;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.demo.springbootinit.model.entity.PostThumb;
 
 /**
  * 帖子点赞数据库操作

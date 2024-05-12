@@ -4,14 +4,17 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
-import org.bouncycastle.asn1.cmc.IdentityProofV2;
 
+import java.nio.charset.StandardCharsets;
+
+/**
+ * 多消费者
+ */
 public class MultiConsumer {
 
     private static final String TASK_QUEUE_NAME = "multi_queue";
 
     public static void main(String[] argv) throws Exception {
-        // 建立连接
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         final Connection connection = factory.newConnection();
@@ -23,26 +26,45 @@ public class MultiConsumer {
 
             channel.basicQos(1);
 
-            // 定义了如何处理消息
+            //如何处理消息
             int finalI = i;
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-                String message = new String(delivery.getBody(), "UTF-8");
-
+                String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
+                System.out.println(" [x] Received '" + "编号:" + finalI + ":" + message + "'");
                 try {
-                    // 处理工作
-                    System.out.println(" [x] Received '" + "编号:" + finalI + ":" + message + "'");
-                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-                    // 停 20 秒，模拟机器处理能力有限
-                    Thread.sleep(20000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    channel.basicNack(delivery.getEnvelope().getDeliveryTag(), false, false);
+                    try {
+                        Thread.sleep(5000);
+                        /**
+                         * 指定确认某条消息 {@link Channel#basicAck(long, boolean)}
+                         * 参数：
+                         * deliveryTag：消息标签
+                         * multiple：批量确认，是指是否要一次性确认所有的历史消息直到当前这条
+                         */
+                        channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+                    } catch (InterruptedException e) {
+                        /**
+                         * 指定某条消息消费失败 {@link Channel#basicNack(long, boolean, boolean)}
+                         * 参数：
+                         * deliveryTag：消息标签
+                         * multiple：批量失败，是指是否要一次性失败所有的历史消息直到当前这条
+                         * requeue：是否从新放入队列中，可用于重试
+                         */
+                        channel.basicNack(delivery.getEnvelope().getDeliveryTag(), false, false);
+                        /**
+                         * 指定拒绝某条消息 {@link Channel#basicReject(long, boolean)}
+                         * 参数：
+                         * deliveryTag：消息标签
+                         * requeue：是否从新放入队列中，可用于重试
+                         */
+                        channel.basicReject(delivery.getEnvelope().getDeliveryTag(), false);
+                        throw new RuntimeException(e);
+                    }
                 } finally {
                     System.out.println(" [x] Done");
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
                 }
             };
-            // 开启消费监听
+            //开启消费监听
             channel.basicConsume(TASK_QUEUE_NAME, false, deliverCallback, consumerTag -> {
             });
         }

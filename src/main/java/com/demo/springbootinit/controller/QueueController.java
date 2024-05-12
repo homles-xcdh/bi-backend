@@ -14,12 +14,21 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 队列测试
+ * 测试 线程池流程
+ * <p>
+ * <p>
+ * 线程池获取任务运行流程：
+ * <li>1.来了一个任务，核心线程数没有用完，其中一个核心线程会直接处理这个任务</li>
+ * <li>2.当核心线程数都在处理任务时，新增加的任务会到队列中排队</li>
+ * <li>3.如果队列满了，最大线程数就会增加核心线程数来<b>处理最新的任务</b>（不是队列中的任务）</li>
+ *
+ * @author lwx
+ * @since 2023/7/6 15:37
  */
+@Slf4j
+@Profile(value = { "test" })
 @RestController
 @RequestMapping("/queue")
-@Slf4j
-@Profile({ "dev", "local" })
 public class QueueController {
 
     @Resource
@@ -28,11 +37,11 @@ public class QueueController {
     @GetMapping("/add")
     public void add(String name) {
         CompletableFuture.runAsync(() -> {
-            log.info("任务执行中：" + name + "，执行人：" + Thread.currentThread().getName());
+            log.info("任务执行中：" + name + "，执行线程：" + Thread.currentThread().getName());
             try {
-                Thread.sleep(600000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }, threadPoolExecutor);
     }
@@ -40,14 +49,10 @@ public class QueueController {
     @GetMapping("/get")
     public String get() {
         Map<String, Object> map = new HashMap<>();
-        int size = threadPoolExecutor.getQueue().size();
-        map.put("队列长度", size);
-        long taskCount = threadPoolExecutor.getTaskCount();
-        map.put("任务总数", taskCount);
-        long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
-        map.put("已完成任务数", completedTaskCount);
-        int activeCount = threadPoolExecutor.getActiveCount();
-        map.put("正在工作的线程数", activeCount);
+        map.put("队列长度", threadPoolExecutor.getQueue().size());
+        map.put("任务总数", threadPoolExecutor.getTaskCount());
+        map.put("正在工作线程数", threadPoolExecutor.getActiveCount());
+        map.put("已完成任务数", threadPoolExecutor.getCompletedTaskCount());
         return JSONUtil.toJsonStr(map);
     }
 }

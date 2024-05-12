@@ -3,18 +3,18 @@ package com.demo.springbootinit.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.springbootinit.common.ErrorCode;
+import com.demo.springbootinit.exception.BusinessException;
 import com.demo.springbootinit.mapper.PostThumbMapper;
 import com.demo.springbootinit.model.entity.Post;
 import com.demo.springbootinit.model.entity.PostThumb;
 import com.demo.springbootinit.model.entity.User;
 import com.demo.springbootinit.service.PostService;
 import com.demo.springbootinit.service.PostThumbService;
-import com.demo.springbootinit.exception.BusinessException;
-
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务实现

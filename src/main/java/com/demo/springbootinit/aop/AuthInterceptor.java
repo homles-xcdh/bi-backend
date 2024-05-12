@@ -1,13 +1,11 @@
 package com.demo.springbootinit.aop;
 
+import com.demo.springbootinit.annotation.AuthCheck;
 import com.demo.springbootinit.common.ErrorCode;
+import com.demo.springbootinit.exception.BusinessException;
 import com.demo.springbootinit.model.entity.User;
 import com.demo.springbootinit.model.enums.UserRoleEnum;
-import com.demo.springbootinit.annotation.AuthCheck;
-import com.demo.springbootinit.exception.BusinessException;
 import com.demo.springbootinit.service.UserService;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 权限校验 AOP

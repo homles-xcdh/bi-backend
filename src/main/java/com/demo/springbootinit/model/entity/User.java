@@ -1,18 +1,18 @@
 package com.demo.springbootinit.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 用户
- * @TableName user
  */
-@TableName(value ="user")
+@TableName(value = "user")
 @Data
 public class User implements Serializable {
+
     /**
      * id
      */
@@ -20,12 +20,12 @@ public class User implements Serializable {
     private Long id;
 
     /**
-     * 账号
+     * 用户账号
      */
     private String userAccount;
 
     /**
-     * 密码
+     * 用户密码
      */
     private String userPassword;
 
@@ -40,7 +40,12 @@ public class User implements Serializable {
     private String userAvatar;
 
     /**
-     * 用户角色：user/admin
+     * 用户简介
+     */
+    private String userProfile;
+
+    /**
+     * 用户角色：user/admin/ban
      */
     private String userRole;
 

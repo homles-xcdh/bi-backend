@@ -2,7 +2,6 @@ package com.demo.springbootinit.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@Profile({"dev", "test"})
 public class Knife4jConfig {
 
     @Bean
@@ -24,12 +22,12 @@ public class Knife4jConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         .title("接口文档")
-                        .description("bi-backend")
+                        .description("mybi-backend")
                         .version("1.0")
                         .build())
                 .select()
                 // 指定 Controller 扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.demo.springbootinit.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.yupi.springbootinit.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

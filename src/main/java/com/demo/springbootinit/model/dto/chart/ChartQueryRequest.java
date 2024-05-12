@@ -7,18 +7,15 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * 查询请求
+ * 图标信息查询请求
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ChartQueryRequest extends PageRequest implements Serializable {
-
-    private Long id;
-
     /**
-     * 名称
+     * id
      */
-    private String name;
+    private Long id;
 
     /**
      * 分析目标
@@ -26,12 +23,32 @@ public class ChartQueryRequest extends PageRequest implements Serializable {
     private String goal;
 
     /**
-     * 图表类型
+     * 图标名称
+     */
+    private String chartName;
+
+    /**
+     * 图标数据
+     */
+    private String chartData;
+
+    /**
+     * 图标类型
      */
     private String chartType;
 
     /**
-     * 用户 id
+     * 生成的图表数据
+     */
+    private String genChart;
+
+    /**
+     * 生成的分析结论
+     */
+    private String genResult;
+
+    /**
+     * 用户id
      */
     private Long userId;
 

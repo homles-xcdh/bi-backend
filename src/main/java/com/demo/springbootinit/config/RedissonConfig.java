@@ -8,26 +8,33 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ConfigurationProperties(prefix = "spring.redis")
+/**
+ * redisson配置
+ *
+ * @author lwx
+ * @since 2023/7/5 22:26
+ */
 @Data
+@ConfigurationProperties(prefix = "spring.redis")
+@Configuration
 public class RedissonConfig {
-
-    private Integer database;
-
     private String host;
-
-    private Integer port;
-
+    private int database;
+    private String port;
     private String password;
 
+    /**
+     * redissonClient
+     *
+     * @return redissonClient
+     */
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.useSingleServer()
+                .setAddress("redis://" + host + ":" + port)
                 .setDatabase(database)
-                .setAddress("redis://" + host + ":" + port);
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+                .setPassword(password);
+        return Redisson.create(config);
     }
 }

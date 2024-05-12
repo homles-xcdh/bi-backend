@@ -5,6 +5,13 @@ spring:
   profiles:
     active: dev
   # 支持 swagger3
+  task:
+    execution:
+      pool:
+        core-size: 2
+        max-size: 4
+        keep-alive: 60
+      thread-name-prefix:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

@@ -6,6 +6,11 @@ package com.demo.springbootinit.constant;
 public interface UserConstant {
 
     /**
+     * 盐值，混淆密码
+     */
+    String SALT = "bi-backend";
+
+    /**
      * 用户登录态键
      */
     String USER_LOGIN_STATE = "user_login";
@@ -28,4 +33,14 @@ public interface UserConstant {
     String BAN_ROLE = "ban";
 
     // endregion
+
+    /**
+     * 默认头像
+     */
+    String DEFAULT_USER_AVATAR = "https://imgs.design006.com/Upload/test/Design006_20200905085032928.png";
+
+    /**
+     * 默认用户名
+     */
+    String DEFAULT_USERNAME = "search";
 }

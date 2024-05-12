@@ -1,7 +1,8 @@
 package com.demo.springbootinit.model.dto.postthumb;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 帖子点赞请求

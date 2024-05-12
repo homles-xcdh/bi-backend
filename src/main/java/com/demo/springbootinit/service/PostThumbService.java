@@ -1,7 +1,7 @@
 package com.demo.springbootinit.service;
 
-import com.demo.springbootinit.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.demo.springbootinit.model.entity.PostThumb;
 import com.demo.springbootinit.model.entity.User;
 
 /**

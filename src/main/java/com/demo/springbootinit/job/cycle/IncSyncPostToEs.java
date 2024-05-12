@@ -1,17 +1,17 @@
 package com.demo.springbootinit.job.cycle;
 
+import com.demo.springbootinit.esdao.PostEsDao;
 import com.demo.springbootinit.mapper.PostMapper;
 import com.demo.springbootinit.model.dto.post.PostEsDTO;
 import com.demo.springbootinit.model.entity.Post;
-import com.demo.springbootinit.esdao.PostEsDao;
-
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 增量同步帖子到 es

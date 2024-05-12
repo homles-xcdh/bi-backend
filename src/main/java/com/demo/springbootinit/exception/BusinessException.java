@@ -1,5 +1,6 @@
 package com.demo.springbootinit.exception;
 
+
 import com.demo.springbootinit.common.ErrorCode;
 
 /**
