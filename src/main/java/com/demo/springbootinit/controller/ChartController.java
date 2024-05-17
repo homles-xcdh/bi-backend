@@ -255,7 +255,7 @@ public class ChartController {
         //向AI提问
         String aiRes = aiManager.doChat(BiConstant.BI_MODEL_ID, userInput.toString());
         //截取AI数据
-        final String str = "=>=>=>";
+        final String str = "【【【【【";//
         String[] aiData = aiRes.split(str);
         log.info("aiData len = {} data = {}", aiData.length, aiRes);
         ThrowUtils.throwIf(aiData.length < 3, ErrorCode.SYSTEM_ERROR, "AI生成错误");
@@ -337,7 +337,7 @@ public class ChartController {
             //向AI提问
             String aiRes = aiManager.doChat(BiConstant.BI_MODEL_ID, userInput.toString());
             //处理AI返回数据
-            final String str = "=>=>=>";
+            final String str = "【【【【【";
             String[] aiData = aiRes.split(str);
             log.info("aiData len = {} data = {}", aiData.length, aiRes);
             ThrowUtils.throwIf(aiData.length < 3, ErrorCode.SYSTEM_ERROR, "AI生成错误");
