@@ -11,9 +11,6 @@ import java.io.IOException;
 
 /**
  * 消息消费者
- *
- * @author lwx
- * @since 2023/7/9 15:27
  */
 @Slf4j
 @Component

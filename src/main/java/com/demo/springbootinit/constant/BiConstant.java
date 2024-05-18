@@ -5,9 +5,6 @@ import java.util.List;
 
 /**
  * ai常量
- *
- * @author lwx
- * @since 2023/7/6 14:27
  */
 public interface BiConstant {
 

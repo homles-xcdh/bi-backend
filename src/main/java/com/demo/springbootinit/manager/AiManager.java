@@ -19,9 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * AIManager
- *
- * @author lwx
- * @since 2023/7/4 12:02
  */
 @Slf4j
 @Service

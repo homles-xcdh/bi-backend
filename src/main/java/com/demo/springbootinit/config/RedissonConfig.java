@@ -10,9 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * redisson配置
- *
- * @author lwx
- * @since 2023/7/5 22:26
  */
 @Data
 @ConfigurationProperties(prefix = "spring.redis")

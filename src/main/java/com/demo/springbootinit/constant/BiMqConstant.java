@@ -3,8 +3,6 @@ package com.demo.springbootinit.constant;
 /**
  * Bi mq 常量
  *
- * @author lwx
- * @since 2023/7/9 15:46
  */
 public interface BiMqConstant {
 

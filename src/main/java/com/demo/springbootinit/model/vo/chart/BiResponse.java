@@ -4,9 +4,6 @@ import lombok.Data;
 
 /**
  * Ai返回结果
- *
- * @author lwx
- * @since 2023/7/4 14:02
  */
 @Data
 public class BiResponse {

@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 
 /**
  * 图表状态枚举
- *
- * @author lwx
- * @since 2023/7/6 14:19
  */
 @Getter
 public enum ChartStatusEnum {

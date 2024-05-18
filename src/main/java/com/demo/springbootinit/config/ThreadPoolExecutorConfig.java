@@ -12,9 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 线程池配置
- *
- * @author lwx
- * @since 2023/7/6 13:53
  */
 @Data
 @ConfigurationProperties(prefix = "spring.task.execution.pool")

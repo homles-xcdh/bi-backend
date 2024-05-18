@@ -13,9 +13,6 @@ import java.time.Duration;
 
 /**
  * redis限流器
- *
- * @author lwx
- * @since 2023/7/5 22:33
  */
 @Component
 public class RedisLimiterManager {

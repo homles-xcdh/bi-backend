@@ -4,9 +4,6 @@ import lombok.Data;
 
 /**
  * SqlEntity sql实体
- *
- * @author lwx
- * @since 2023/7/5 16:02
  */
 @Data
 public class SqlEntity {

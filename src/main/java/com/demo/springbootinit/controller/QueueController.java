@@ -21,9 +21,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * <li>1.来了一个任务，核心线程数没有用完，其中一个核心线程会直接处理这个任务</li>
  * <li>2.当核心线程数都在处理任务时，新增加的任务会到队列中排队</li>
  * <li>3.如果队列满了，最大线程数就会增加核心线程数来<b>处理最新的任务</b>（不是队列中的任务）</li>
- *
- * @author lwx
- * @since 2023/7/6 15:37
  */
 @Slf4j
 @Profile(value = { "test" })

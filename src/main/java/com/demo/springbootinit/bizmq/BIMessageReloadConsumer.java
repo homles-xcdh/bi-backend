@@ -30,9 +30,6 @@ import java.io.IOException;
 
 /**
  * bi 消息重试 消费者
- *
- * @author lwx
- * @since 2023/7/9 15:27
  */
 @Slf4j
 @Component
