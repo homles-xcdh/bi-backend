@@ -18,12 +18,16 @@ import com.demo.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static com.demo.springbootinit.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 用户接口
@@ -37,7 +41,9 @@ public class UserController {
     private UserService userService;
 
     @Resource
-    private WxOpenConfig wxOpenConfig;
+    private RedisTemplate redisTemplate;
+
+
 
     // region 登录相关
 
@@ -202,6 +208,9 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userUpdateRequest, user);
         boolean result = userService.updateById(user);
+        String token = (String) request.getSession().getAttribute(USER_LOGIN_STATE);
+        redisTemplate.opsForValue().set(token, user, 60*60*24, TimeUnit.MINUTES);
+
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
@@ -221,6 +230,8 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userInfoUpdateRequest, user);
         boolean result = userService.updateById(user);
+        String token = (String) request.getSession().getAttribute(USER_LOGIN_STATE);
+        redisTemplate.opsForValue().set(token, user, 60*60*24, TimeUnit.MINUTES);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }
@@ -317,6 +328,8 @@ public class UserController {
         BeanUtils.copyProperties(userUpdateMyRequest, user);
         user.setId(loginUser.getId());
         boolean result = userService.updateById(user);
+        String token = (String) request.getSession().getAttribute(USER_LOGIN_STATE);
+        redisTemplate.opsForValue().set(token, user, 60*60*24, TimeUnit.MINUTES);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);
     }

@@ -51,4 +51,3 @@ public class LogInterceptor {
         return result;
     }
 }
-

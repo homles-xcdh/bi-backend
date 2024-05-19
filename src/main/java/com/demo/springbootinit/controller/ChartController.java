@@ -119,7 +119,7 @@ public class ChartController {
     }
 
     /**
-     * 更新图标信息
+     * 更新图表信息
      *
      * @param updateGenChartRequest
      * @param request
@@ -134,8 +134,37 @@ public class ChartController {
         }
         Chart chart = new Chart();
         BeanUtils.copyProperties(updateGenChartRequest, chart);
+        chart.setGenStatus(ChartStatusEnum.WAIT.getValue());
+        chart.setGenResult("");
         boolean result = chartService.updateById(chart);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+
+        String goal = chart.getGoal();
+        String chartType = chart.getChartType();
+        String csvData = chart.getChartData();
+        //获取登录用户
+        User loginUser = userService.getLoginUser(request);
+        final String key = BiConstant.BI_REDIS_LIMITER_KEY + loginUser.getId();
+        // 限流判断，每个用户一个限流器
+        redisLimiterManager.doRateLimit(key);
+        // 用户输入
+        StringBuilder userInput = new StringBuilder();
+        userInput.append("分析需求：").append("\n");
+        //拼接分析目标
+        String userGoal = goal;
+        if (StringUtils.isNotBlank(chartType)) {
+            userGoal += "，请使用" + chartType;
+        }
+        userInput.append(userGoal).append("\n");
+        userInput.append(goal).append("\n");
+        userInput.append("原始数据：").append("\n");
+        userInput.append(csvData).append("\n");
+        Long newChartId = chart.getId();
+        //向消息队列发送消息
+        biMessageProducer.sendMessage(String.valueOf(newChartId));
+        BiResponse biResponse = new BiResponse();
+        biResponse.setChartId(newChartId);
+
         return ResultUtils.success(true);
     }
 
